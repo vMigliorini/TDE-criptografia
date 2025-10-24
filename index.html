@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <link rel="stylesheet" href="css/styles.css">
+        <script defer src="js/index.js"></script>
+    </head>
+    <body>
+
+        <form id="form-cadastro">
+
+            <div class="container-principal">
+                <div class="container-cadastro-botao">
+                    <div class="container-cadastro">
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" name="nome" placeholder="Nome completo">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" name="senha" placeholder="Senha">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" name="confirmacao_senha" placeholder="Confirmar senha">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <input type="date" name="data_nascimento" placeholder="Data de nascimento">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="tel" name="contato" placeholder="numero de telefone">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <input type="text" name="cep" placeholder="CEP" pattern="\d{5}-?\d{3}" maxlength="9">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-road"></i>
+                            <input type="text" name="nome_logradouro" placeholder="Nome logradouro">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-hashtag"></i>
+                            <input type="number" name="numero_logradouro" placeholder="Numero residencia">
+                        </div>
+
+                        <div class="input-container-cadastro">
+                            <i class="fa-solid fa-house"></i>
+                            <input type="text" name="tipo_logradouro" placeholder="tipo logradouro">
+                        </div>
+                        
+                    </div>
+                    <div class="container-botao-cadastrar">
+                        <button class="botao-cadastrar" type="button" onclick="cadastrar()">Cadastrar-se</button>
+                    </div>
+                    <a href="pagina-login/">já tem conta? Logue!</a>
+                </div>
+            </div>
+
+        </form>
+
+    </body>
+</html>
