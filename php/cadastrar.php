@@ -12,7 +12,7 @@ function criptografar($dados) {
 }
 
 
-
+$email = $_POST["email"];
 $nome = $_POST["nome"];
 $senha = $_POST["senha"];
 $confirmacao_senha = $_POST["confirmacao_senha"];
@@ -46,7 +46,7 @@ if ($senha != $confirmacao_senha){
 $algoritmo_hash = PASSWORD_ARGON2ID;
 $senha_hashsada = password_hash($senha, $algoritmo_hash);
 
-$con = mysqli_connect("localhost:3306", "root", "", "bikes");
+$con = mysqli_connect("localhost:3306", "root", "", "cadastro");
 
 
 mysqli_begin_transaction($con);
@@ -54,26 +54,28 @@ try{
 
     $stmt = mysqli_stmt_init($con);
 
-    $query_pessoa = "INSERT INTO pessoa (nome, data_nascimento, senha_login) VALUES (?, ?, ?);";
+
     $query_endereco = "INSERT INTO endereco (cep, nome_logradouro, numero_residencia, tipo_logradouro) VALUES (?, ?, ?, ?);";
-    $query_contato = "INSERT INTO contato (numero_contato) VALUES (?);";
-
-
-    mysqli_stmt_prepare($stmt, $query_pessoa);
-    mysqli_stmt_bind_param($stmt, 'sss', $nome_criptografado, $data_nascimento_criptografada, $senha_hashsada);
-    $resultado_pessoa = mysqli_stmt_execute($stmt);
-
-
     mysqli_stmt_prepare($stmt, $query_endereco);
     mysqli_stmt_bind_param($stmt, 'ssss', $cep_criptografado, $nome_logradouro_criptografado, $numero_logradouro_criptografado, $tipo_logradouro_criptografado);
     $resultado_endereco = mysqli_stmt_execute($stmt);
 
+    $id_endereco_gerado = mysqli_insert_id($con);
 
+
+    $query_pessoa = "INSERT INTO pessoa (id_endereco, nome, data_nascimento, senha_login, email) VALUES (?, ?, ?, ?, ?);";
+    mysqli_stmt_prepare($stmt, $query_pessoa);
+    mysqli_stmt_bind_param($stmt, 'issss', $id_endereco_gerado, $nome_criptografado, $data_nascimento_criptografada, $senha_hashsada, $email);
+    $resultado_pessoa = mysqli_stmt_execute($stmt);
+
+    $id_pessoa_gerado = mysqli_insert_id($con);
+
+
+    $query_contato = "INSERT INTO contato (id_pessoa, numero_contato) VALUES (?, ?);";    
     mysqli_stmt_prepare($stmt, $query_contato);
-    mysqli_stmt_bind_param($stmt, 's', $contato_criptografado);
+    mysqli_stmt_bind_param($stmt, 'is', $id_pessoa_gerado, $contato_criptografado);
     $resultado_contato = mysqli_stmt_execute($stmt);
 
-    mysqli_stmt_close($stmt);
 
     if($resultado_pessoa == true and $resultado_endereco == true and $resultado_contato == true){
         mysqli_commit($con);
@@ -82,8 +84,9 @@ try{
     }else{
         throw new Exception("Cadastro falhou. Falta informação ou a informação é inválida, tente novamente!");
     }
+    mysqli_stmt_close($stmt);
 
-    
+
 } catch (Exception $e){
     mysqli_rollback($con);
 
