@@ -10,9 +10,10 @@ async function cadastrar(){
     var dados = await resposta.json()
 
     if (dados.status == "s"){
-        alert(dados.mensagen)
+        alert(dados.mensagem)
+        window.location.href = 'pagina-login/index.html';
     }else{
-        alert(dados.mensagen)
+        alert(dados.mensagem)
     }
     
 }
@@ -28,9 +29,9 @@ async function logar() {
 
     var dados = await resposta.json()
     if (dados.status == "s"){
-        alert(dados.mensagen)
+        alert(dados.mensagem)
     }else{
-        alert(dados.mensagen)
+        alert(dados.mensagem)
     }
 
 }
