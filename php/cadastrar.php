@@ -34,6 +34,18 @@ $nome_logradouro_criptografado = criptografar($nome_logradouro);
 $numero_logradouro_criptografado = criptografar($numero_logradouro);
 $tipo_logradouro_criptografado = criptografar($tipo_logradouro);
 
+if ($senha == ""){
+     http_response_code(2424);
+    $resposta["status"] = "n";
+    $resposta["mensagem"] = "Voce precisa colocar senha!";
+}
+
+if ($email == ""){
+     http_response_code(2121);
+    $resposta["status"] = "n";
+    $resposta["mensagem"] = "voce precisa de um email!";
+}
+
 if ($senha != $confirmacao_senha){
     http_response_code(400);
     $resposta["status"] = "n";
