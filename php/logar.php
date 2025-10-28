@@ -19,7 +19,7 @@ $senha = $_POST["senha"];
 $resposta["status"] = "n";
 $resposta["mensagem"] = "";
 
-$con = mysqli_connect("localhost:3306", "root", "", "cadastro");
+$con = mysqli_connect("localhost:3306", "root", "PUC@1234", "cadastro");
 
 if (mysqli_connect_errno()) {
     http_response_code(500);

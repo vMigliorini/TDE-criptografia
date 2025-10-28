@@ -46,7 +46,7 @@ if ($senha != $confirmacao_senha){
 $algoritmo_hash = PASSWORD_ARGON2ID;
 $senha_hashsada = password_hash($senha, $algoritmo_hash);
 
-$con = mysqli_connect("localhost:3306", "root", "", "cadastro");
+$con = mysqli_connect("localhost:3306", "root", "PUC@1234", "cadastro");
 
 
 mysqli_begin_transaction($con);
