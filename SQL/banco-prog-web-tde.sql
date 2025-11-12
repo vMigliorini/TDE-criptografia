@@ -33,7 +33,7 @@ CREATE TABLE cliente(
     id_cliente SMALLINT UNSIGNED PRIMARY KEY,
     FOREIGN KEY (id_cliente) REFERENCES pessoa(id_pessoa),
     limite_credito DECIMAL(15,2),
-    data_cadastro DATE
+    data_cadastro timestamp default current_timestamp
 );
 
 CREATE TABLE vendedor(
