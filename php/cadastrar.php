@@ -99,7 +99,7 @@ if ($senha != $confirmacao_senha){
 $algoritmo_hash = PASSWORD_ARGON2ID;
 $senha_hashsada = password_hash($senha, $algoritmo_hash);
 
-$con = mysqli_connect("localhost:3306", "root", "", "cadastro");
+$con = mysqli_connect("localhost:3306", "root", "", "bikes");
 
 if (mysqli_connect_errno()) {
     http_response_code(500);
