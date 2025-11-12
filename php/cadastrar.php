@@ -1,67 +1,19 @@
 <?php
 header('Content-Type: application/json');
-
+require_once 'descriptografar.php';
 
 $resposta["status"] = "n";
 $resposta["mensagem"] = "";
 
-$payload_json = file_get_contents('php://input');
-$payload = json_decode($payload_json, true);
-
-if (empty($payload['encryptedKey']) || empty($payload['iv']) || empty($payload['data'])) {
-    die(json_encode([
-        $resposta["mensagem"] = "Payload incompleto. Dados de criptografia ausentes."
-        die(json_encode($resposta));
-    ]));
-}
-
-$chaveCriptografada_base64 = $payload['encryptedKey'];
-$vi_base64 = $payload['iv'];
-$dadosCriptografados_base64 = $payload['data'];
-
 try {
-    $chavePrivadaPEM = file_get_contents("../chaves/private_key.pem");
+    $payload_json = file_get_contents('php://input');
+    $payload = json_decode($payload_json, true);
 
-    $chavePrivada = openssl_pkey_get_private($chavePrivadaPEM); 
-
-    if (!$chavePrivadaPEM) {
-        throw new Exception('Falha ao carregar a chave privada RSA.');
-    }
-
-    $chaveCriptografadaRSA_raw = base64_decode($chaveCriptografada_base64);
-
-    openssl_private_decrypt(
-        $chaveCriptografadaRSA_raw,
-        $chaveSimetricaDescriptografada_base64,
-        $chavePrivada,
-        OPENSSL_PKCS1_PADDING
-    );
-
-    if ($chaveSimetricaDescriptografada_base64 === null) {
-        throw new Exception('Falha ao descriptografar a chave simétrica (RSA).');
-    }
-
-    $chaveAES_raw = base64_decode($chaveSimetricaDescriptografada_base64);
-    $vi_raw = base64_decode($vi_base64);
-
-    $jsonDescriptografado = openssl_decrypt(
-        $dadosCriptografados_base64,
-        'AES-128-CBC',
-        $chaveAES_raw,
-        OPENSSL_ZERO_PADDING,
-        $vi_raw,
-    );
-
-    $jsonDescriptografado = rtrim($jsonDescriptografado, "\0..\16");
-
-    $formData = json_decode($jsonDescriptografado, true);
-
-    if ($formData === null) {
-        throw new Exception('Falha ao decodificar o JSON dos dados (dados corrompidos).');
-    }
+    $formData = descriptografar($payload);
 
 } catch (Exception $e) {
-    http_response_code(500);
+
+    http_response_code(400);
     $resposta["mensagem"] = "Erro na descriptografia: " . $e->getMessage();
     die(json_encode($resposta));
 }
@@ -70,12 +22,12 @@ $email = $formData['email'];
 $senha = $formData['senha'];
 $confirmacao_senha = $formData['confirmacao_senha'];
 $nome = $formData['nome'];
-$data_nascimento = ['data_nascimento'];
+$data_nascimento = $formData['data_nascimento'];
 $contato = $formData['contato'];
 $cep = $formData['cep'];
 $nome_logradouro = $formData['nome_logradouro'];
 $tipo_logradouro = $formData['tipo_logradouro'];
-$numero_logradouro = $formData['$numero_logradouro']
+$numero_logradouro = $formData['numero_logradouro'];
 
 
 if ($senha == ""){
