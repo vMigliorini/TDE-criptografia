@@ -30,7 +30,7 @@ function criptografar(form_dados){
         const chaveSimetricaCriptografada = criptografiaRSA.encrypt(chaveSimetricaBase64)
 
         if (!chaveSimetricaCriptografada) {
-            throw new error("erro na criptografia da chave simétrica")
+            throw new Error("erro na criptografia da chave simétrica")
         }
 
         const payload = {
@@ -70,7 +70,7 @@ async function cadastrar() {
         }
 
     } catch (error) {
-        alert("Erro durante a criptografia o envio ou criptografia:", error)
+        alert("Erro durante a criptografia o envio ou criptografia" + error.message)
     }
 }
 
@@ -86,7 +86,7 @@ async function logar() {
     
         payload = criptografar(form_dados)
 
-        var resposta = await fetch("php/logar.php", {
+        var resposta = await fetch("../php/logar.php", {
             method: "POST",
             body: JSON.stringify(payload),
             headers: {
@@ -103,6 +103,6 @@ async function logar() {
         }
 
     } catch (error) {
-        alert("Erro durante a criptografia o envio ou criptografia:", error)
+        alert("Erro durante a criptografia o envio ou criptografia" + error.message)
     }
 }
